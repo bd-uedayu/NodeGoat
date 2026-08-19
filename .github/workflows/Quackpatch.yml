@@ -65,5 +65,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: quack-patch-results
-          ##path: /home/runner/blackduck/runs/**/scan/quack-patch
-          path: quack-patch
+          path: /home/runner/blackduck/runs/**/scan/quack-patch
+          ##path: quack-patch
