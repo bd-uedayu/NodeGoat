@@ -49,17 +49,11 @@ jobs:
             --detect.llm.name=claude-sonnet-4-6 \
             --detect.quack.patch.output.path="${GITHUB_WORKSPACE}/quack-patch"
             
-      - name: Debug
+      - name: Check Output
         if: always()
         run: |
-          ls -R /home/runner/blackduck/runs
-      - name: Show Quack Patch Directory
-        if: always()
-        run: |
-            find /home/runner/blackduck -name "*quack*" -print
-            find /home/runner/blackduck -name "*.patch" -print
-            find /home/runner/blackduck -name "*.diff" -print
-            find /home/runner/blackduck -name "*.json" -print
+          ls -R "${GITHUB_WORKSPACE}/quack-patch"
+
       - name: Upload Quack Patch Results
         if: always()
         uses: actions/upload-artifact@v4
