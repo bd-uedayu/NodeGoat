@@ -48,7 +48,11 @@ jobs:
             --detect.llm.api.key="${{ secrets.LLM_API_KEY }}" \
             --detect.llm.name=claude-sonnet-4-6 \
             --detect.quack.patch.output.path="${GITHUB_WORKSPACE}/quack-patch"
-            
+          echo "=== AFTER DETECT ==="      
+          find /home/runner/blackduck -type f
+          mkdir -p artifact
+          cp -R /home/runner/blackduck/runs/*/scan/quack-patch/* artifact/ || true
+          
       - name: Check Output
         if: always()
         run: |
@@ -61,3 +65,10 @@ jobs:
           name: quack-patch-results
           path: /home/runner/blackduck/runs/**/scan/quack-patch
           ##path: quack-patch
+
+      - name: Upload Quack Patch Results2
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quack-patch-results
+          path: artifact
