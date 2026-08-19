@@ -46,7 +46,7 @@ jobs:
             --detect.quack.patch.enabled=true \
             --detect.llm.api.endpoint="${{ secrets.LLM_API_ENDPOINT }}" \
             --detect.llm.api.key="${{ secrets.LLM_API_KEY }}" \
-            --detect.llm.name=gpt-4
+            --detect.llm.name=claude-sonnet-4-6 \
             --detect.quack.patch.output.path=quack-patch
             
       - name: Debug
