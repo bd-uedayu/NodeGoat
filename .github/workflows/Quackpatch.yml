@@ -50,13 +50,20 @@ jobs:
             --detect.quack.patch.output.path="${GITHUB_WORKSPACE}/quack-patch"
           echo "=== AFTER DETECT ==="      
           find /home/runner/blackduck -type f
+          echo "=== ARTIFACT ==="
+          ls -la artifact || true
+          find artifact -type f || true
           mkdir -p artifact
           cp -R /home/runner/blackduck/runs/*/scan/quack-patch/* artifact/ || true
-          
-      - name: Check Output
+      
+      - name: Debug Detect Directory
         if: always()
         run: |
-          ls -R "${GITHUB_WORKSPACE}/quack-patch"
+            echo "==== RUNS ===="
+            find /home/runner/blackduck/runs -ls || true
+
+            echo "==== BLACKDUCK ===="
+            find /home/runner/blackduck -ls || true
 
       - name: Upload Quack Patch Results
         if: always()
@@ -70,5 +77,5 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: quack-patch-results
+          name: quack-patch-results2
           path: artifact
