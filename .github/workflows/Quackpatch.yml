@@ -50,16 +50,11 @@ jobs:
             --detect.llm.name=claude-sonnet-4-6 \
             --detect.quack.patch.output="${GITHUB_WORKSPACE}/quack-patch"
 
-
 ##--detect.quack.patch.output.path="${GITHUB_WORKSPACE}/quack-patch"
-      - name: Check Detect Version
-        run: |
-          java -jar $HOME/synopsys-detect/download/detect*.jar --version
 
       - name: Upload Quack Patch Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: quack-patch-results
-          path: ${GITHUB_WORKSPACE}/quack-patch
-          ##path: quack-patch
+          path: ${{ github.workspace }}/quack-patch
