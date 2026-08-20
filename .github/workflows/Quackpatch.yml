@@ -80,4 +80,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: quack-patch-file
-          path: ${{ github.workspace }}/quack-patch2/*.patch
+          path: ${{ github.workspace }}/*/quack-patch/*.patch
