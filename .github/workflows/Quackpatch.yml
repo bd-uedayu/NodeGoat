@@ -37,6 +37,7 @@ jobs:
         continue-on-error: true
         shell: bash
         run: |
+          echo "${GITHUB_REPOSITORY}"   
           bash <(curl -s -L https://detect.blackduck.com/detect11.sh) \
             --blackduck.offline.mode=false \
             --blackduck.url="${{ secrets.BLACKDUCK_URL }}" \
@@ -47,23 +48,7 @@ jobs:
             --detect.llm.api.endpoint="${{ secrets.LLM_API_ENDPOINT }}" \
             --detect.llm.api.key="${{ secrets.LLM_API_KEY }}" \
             --detect.llm.name=claude-sonnet-4-6 \
-            --detect.quack.patch.output.path="${GITHUB_WORKSPACE}/quack-patch"
-          echo "=== AFTER DETECT ==="      
-          find /home/runner/blackduck -type f
-          echo "=== ARTIFACT ==="
-          ls -la artifact || true
-          find artifact -type f || true
-          mkdir -p artifact
-          cp -R /home/runner/blackduck/runs/*/scan/quack-patch/* artifact/ || true
-      
-      - name: Debug Detect Directory
-        if: always()
-        run: |
-            echo "==== RUNS ===="
-            find /home/runner/blackduck/runs -ls || true
-
-            echo "==== BLACKDUCK ===="
-            find /home/runner/blackduck -ls || true
+            --detect.quack.patch.output.path="${GITHUB_REPOSITORY}/quack-patch"
 
       - name: Upload Quack Patch Results
         if: always()
@@ -72,10 +57,3 @@ jobs:
           name: quack-patch-results
           path: /home/runner/blackduck/runs/**/scan/quack-patch
           ##path: quack-patch
-
-      - name: Upload Quack Patch Results2
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: quack-patch-results2
-          path: artifact
