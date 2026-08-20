@@ -48,8 +48,10 @@ jobs:
             --detect.llm.api.endpoint="${{ secrets.LLM_API_ENDPOINT }}" \
             --detect.llm.api.key="${{ secrets.LLM_API_KEY }}" \
             --detect.llm.name=claude-sonnet-4-6 \
-            --detect.quack.patch.output.path="${GITHUB_WORKSPACE}/quack-patch"
+            --detect.quack.patch.output="${GITHUB_WORKSPACE}/quack-patch"
 
+
+##--detect.quack.patch.output.path="${GITHUB_WORKSPACE}/quack-patch"
       - name: Check Detect Version
         run: |
           java -jar $HOME/synopsys-detect/download/detect*.jar --version
