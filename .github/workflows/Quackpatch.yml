@@ -32,7 +32,7 @@ jobs:
        ## run: mvn compile
        # #mvn clean install
     
-    ## Analyze with Black Duck        
+    ## Analyze with Black Duck     detect 11     
       - name: Quack Patch
         continue-on-error: true
         shell: bash
@@ -50,11 +50,34 @@ jobs:
             --detect.llm.name=claude-sonnet-4-6 \
             --detect.quack.patch.output="${GITHUB_WORKSPACE}/quack-patch"
 
-##--detect.quack.patch.output.path="${GITHUB_WORKSPACE}/quack-patch"
-
       - name: Upload Quack Patch Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: quack-patch-results
           path: ${{ github.workspace }}/quack-patch
+
+  ## Analyze with Black Duck  detect 12      
+      - name: Quack Patch2
+        continue-on-error: true
+        shell: bash
+        run: |
+          echo "${GITHUB_REPOSITORY}"   
+          bash <(curl -s -L https://detect.blackduck.com/detect12.sh) \
+            --blackduck.offline.mode=false \
+            --blackduck.url="${{ secrets.BLACKDUCK_URL }}" \
+            --blackduck.trust.cert=true \
+            --blackduck.api.token="${{ secrets.BLACKDUCK_API_TOKEN }}" \
+            --detect.blackduck.scan.mode=RAPID \
+            --detect.quack.patch.enabled=true \
+            --detect.llm.api.endpoint="${{ secrets.LLM_API_ENDPOINT }}" \
+            --detect.llm.api.key="${{ secrets.LLM_API_KEY }}" \
+            --detect.llm.name=claude-sonnet-4-6 \
+            --detect.quack.patch.output.path="${GITHUB_WORKSPACE}/quack-patch"
+
+      - name: Upload Quack Patch Results2
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quack-patch-file
+          path: ${{ github.workspace }}/quack-patch/*.patch
