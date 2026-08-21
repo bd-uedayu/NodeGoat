@@ -80,11 +80,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: quack-patch-file
-          path: ${{ github.workspace }}/*/quack-patch2/*.patch
+          path: ${{ github.workspace }}/*/quack-patch/*.patch
 
       - name: Apply Patch Files
         run: |
-          find . -path "*/quack-patch2/*.patch" | while read patch
+          find . -path "*/quack-patch/*.patch" | while read patch
           do
             echo "Applying $patch"
             git apply "$patch"
