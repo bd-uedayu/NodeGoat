@@ -59,7 +59,9 @@ jobs:
             echo "Applying $patch"
             git apply "$patch"
           done
-
+          git status
+          rm -rf "${GITHUB_WORKSPACE}/quack-patch"
+          
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
